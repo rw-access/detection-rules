@@ -247,6 +247,10 @@ def kibana_upload(toml_files, url, cloud_id, user, password):
         for rule in rules:
             payload = rule.contents.copy()
             meta = payload.setdefault("meta", {})
+
+            for key in ("author", "license"):
+                payload.pop(key)
+
             meta["original"] = dict(id=rule.id, **rule.metadata)
             payload["rule_id"] = str(uuid4())
             api_payloads.append(RuleResource.from_dict(payload))
