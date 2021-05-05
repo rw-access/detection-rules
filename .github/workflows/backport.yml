@@ -38,4 +38,5 @@ jobs:
           # <python code to remove irrelevant rules>
           # git commit --author ... --message ...
 
+          echo "Push new commit to ${{matrix.target_branch}}"
           git push
