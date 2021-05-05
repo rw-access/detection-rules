@@ -1,0 +1,52 @@
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - labeled
+      - closed
+
+jobs:
+  backport:
+    name: Backport PR
+    if: |
+      github.event.pull_request.merged == true
+      && contains(github.event.pull_request.labels.*.name, 'backport: auto')
+      && (
+        (github.event.action == 'labeled' && github.event.label.name == 'backport: auto')
+        || (github.event.action == 'closed')
+      )
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target_branch: [7.13]
+
+    steps:
+      - name: Checkout Actions
+        uses: actions/checkout@v2
+        with:
+          repository: 'elastic/kibana-github-actions'
+          ref: main
+          path: ./actions
+
+      - name: Install Actions
+        run: npm install --production --prefix ./actions
+
+# Might not be necessary
+#      - name: setup git config
+#        run: |
+#          git config user.name "${{secrets.GITHUB_USER}}"
+#          git config user.email "${{secrets.GITHUB_EMAIL}}"
+
+      - name: Backport commit
+        run: |-
+          git checkout ${{matrix.target_branch}}
+          git cherry-pick
+
+          # See https://github.com/elastic/detection-rules/issues/1171
+          # Eventually, this cherry pick command will be:
+          # git-cherry-pick --no-commit
+          # <python code to remove irrelevant rules>
+          # git commit --author ... --message ...
+
+          git push
