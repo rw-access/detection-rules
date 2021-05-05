@@ -28,6 +28,7 @@ jobs:
 
       - name: Backport commit
         run: |-
+          set -x
           git fetch origin ${{matrix.target_branch}}
           git checkout -f ${{matrix.target_branch}}
           git status
