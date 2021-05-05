@@ -30,6 +30,7 @@ jobs:
         run: |-
           git fetch origin ${{matrix.target_branch}}
           git checkout -f ${{matrix.target_branch}}
+          git status
 
 
           echo "Cherry-pick from $GITHUB_SHA to ${{matrix.target_branch}}"
