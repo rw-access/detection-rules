@@ -3,14 +3,11 @@ name: Check labels
 on:
   pull_request:
     branches: [main]
-    types: [opened, labeled, unlabeled, synchronize]
+    types: [opened, labeled, unlabeled, reopened]
 jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - uses: mheap/github-action-required-labels@v1
+      - uses: sugarshin/required-labels-action@v0.3.1
         with:
-          mode: exactly
-          count: 1
-          labels: "backport: auto, backport: skip"
-  
+          required_oneof: 'backport: auto,backport: skip'
