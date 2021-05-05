@@ -29,7 +29,7 @@ jobs:
       - name: Backport commit
         run: |-
           git fetch origin ${{matrix.target_branch}}
-          git checkout ${{matrix.target_branch}}
+          git checkout -f ${{matrix.target_branch}}
 
 
           echo "Cherry-pick from $GITHUB_SHA to ${{matrix.target_branch}}"
