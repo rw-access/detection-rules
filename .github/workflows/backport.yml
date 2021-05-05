@@ -1,0 +1,52 @@
+name: backport
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - labeled
+      - closed
+
+jobs:
+  backport:
+    name: on merge
+    if: |
+      github.event.pull_request.merged == true
+      && contains(github.event.pull_request.labels.*.name, 'backport: auto')
+      && (
+        (github.event.action == 'labeled' && github.event.label.name == 'backport: auto')
+        || (github.event.action == 'closed')
+      )
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target_branch: [7.13]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Backport commit
+        run: |-
+          set
+          set -x
+
+          git fetch origin ${{matrix.target_branch}}
+
+          git checkout -f ${{matrix.target_branch}}
+
+          git status
+
+          git log -1 --format='%H'
+
+          echo "Cherry-pick from $GITHUB_SHA to ${{matrix.target_branch}}"
+          git cherry-pick -x $GITHUB_SHA
+
+          # See https://github.com/elastic/detection-rules/issues/1171
+          # Eventually, this cherry pick command will be:
+          # git-cherry-pick --no-commit
+          # <python code to remove irrelevant rules>
+          # git commit --author ... --message ...
+
+          echo "Push new commit to ${{matrix.target_branch}}"
+          git push
