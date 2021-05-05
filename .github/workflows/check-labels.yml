@@ -12,6 +12,5 @@ jobs:
         with:
           mode: exactly
           count: 1
-          labels:
-            - "backport: auto"
-            - "backport: skip"
+          labels: "backport: auto, backport: skip"
+  
