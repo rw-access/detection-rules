@@ -30,6 +30,9 @@ jobs:
         run: |-
           git fetch origin ${{matrix.target_branch}}
           git checkout ${{matrix.target_branch}}
+
+
+          echo "Cherry-pick from $GITHUB_SHA to ${{matrix.target_branch}}"
           git cherry-pick $GITHUB_SHA
 
           # See https://github.com/elastic/detection-rules/issues/1171
