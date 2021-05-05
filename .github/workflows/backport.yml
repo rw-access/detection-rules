@@ -23,24 +23,12 @@ jobs:
         target_branch: [7.13]
 
     steps:
-      - name: Checkout Actions
+      - name: Checkout repo
         uses: actions/checkout@v2
-        with:
-          repository: 'elastic/kibana-github-actions'
-          ref: main
-          path: ./actions
-
-      - name: Install Actions
-        run: npm install --production --prefix ./actions
-
-# Might not be necessary
-#      - name: setup git config
-#        run: |
-#          git config user.name "${{secrets.GITHUB_USER}}"
-#          git config user.email "${{secrets.GITHUB_EMAIL}}"
 
       - name: Backport commit
         run: |-
+          git clone https://detection-rules.gi
           git checkout ${{matrix.target_branch}}
           git cherry-pick
 
