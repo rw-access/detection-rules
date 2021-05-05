@@ -28,7 +28,6 @@ jobs:
 
       - name: Backport commit
         run: |-
-          git clone https://detection-rules.gi
           git checkout ${{matrix.target_branch}}
           git cherry-pick
 
