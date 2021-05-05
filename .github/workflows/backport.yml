@@ -28,6 +28,7 @@ jobs:
 
       - name: Backport commit
         run: |-
+          git fetch
           git checkout ${{matrix.target_branch}}
           git cherry-pick ${{env.GITHUB_SHA}}
 
