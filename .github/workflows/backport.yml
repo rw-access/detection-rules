@@ -9,7 +9,7 @@ on:
       - closed
 
 jobs:
-  backport-label:
+  label:
     runs-on: ubuntu-latest
     if: |
       github.event.action != 'closed'
@@ -44,8 +44,7 @@ jobs:
             })
 
 
-  backport-commit:
-    name: on merge
+  commit:
     if: |
       github.event.pull_request.merged == true
       && contains(github.event.pull_request.labels.*.name, 'backport: auto')
