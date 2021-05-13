@@ -12,7 +12,7 @@ jobs:
   label:
     runs-on: ubuntu-latest
     if: |
-      github.event.action != 'closed'
+      github.event.pull_request.state == "open" && !github.event.pull_request.draft
     steps:
       - name: 'Apply default "backport: auto" label'
         uses: actions/github-script@v4
