@@ -16,7 +16,7 @@ jobs:
     if: |
       github.event.pull_request.state == "open" && !github.event.pull_request.draft &&
       1 != (contains(github.event.pull_request.labels.*.name, 'backport: auto') +
-            contains(github.event.pull_request.labels.*.name, 'backport: skip'))
+      contains(github.event.pull_request.labels.*.name, 'backport: skip'))
     steps:
       - name: 'Apply default "backport: auto" label'
         uses: actions/github-script@v4
