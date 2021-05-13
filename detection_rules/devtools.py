@@ -32,6 +32,7 @@ from .utils import get_path, dict_hash
 
 RULES_DIR = get_path('rules')
 
+# test for rdubya
 
 @root.group('dev')
 def dev_group():
