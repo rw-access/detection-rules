@@ -4,11 +4,42 @@ on:
     branches:
       - main
     types:
+      - unlabeled
       - labeled
       - closed
 
 jobs:
-  backport:
+  backport-label:
+    runs-on: ubuntu-latest
+    if: |
+      github.event.action != 'closed'
+    steps:
+      - name: 'Apply default "backport: auto" label'
+        uses: actions/github-script@v4
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'backport: auto')
+        with:
+#          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
+          script: |
+            github.issues.addLabels({
+              ...context.issue,
+              labels: ['backport: auto']
+            })
+      - name: 'Remove "backport: auto" if "backport: skip" is set'
+        uses: actions/github-script@v4
+        if: |
+          contains(github.event.pull_request.labels.*.name, 'backport: auto') &&
+          contains(github.event.pull_request.labels.*.name, 'backport: skip')
+        with:
+#          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
+          script: |
+            github.issues.removeLabel({
+              ...context.issue,
+              labels: ['backport: auto']
+            })
+
+
+  backport-commit:
     name: on merge
     if: |
       github.event.pull_request.merged == true
@@ -27,7 +58,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
+#          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
           ref: ${{matrix.target_branch}}
 
       - name: Set github config
