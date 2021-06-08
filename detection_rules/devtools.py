@@ -236,9 +236,9 @@ def kibana_commit(ctx, local_repo: str, github_repo: str, ssh: bool, kibana_dire
               help="GitHub token to use for the PR", hide_input=True)
 @click.option("--assign", multiple=True, help="GitHub users to assign the PR")
 @click.option("--label", multiple=True, help="GitHub labels to add to the PR")
+@click.option("--draft", is_flag=True, help="Open the PR as a draft")
 # Pending an official GitHub API
 # @click.option("--automerge", is_flag=True, help="Enable auto-merge on the PR")
-@click.option("--draft", is_flag=True, help="Open the PR as a draft")
 @add_git_args
 @click.pass_context
 def kibana_pr(ctx: click.Context, label: Tuple[str, ...], assign: Tuple[str, ...], draft: bool, token: str, **kwargs):
@@ -262,7 +262,9 @@ def kibana_pr(ctx: click.Context, label: Tuple[str, ...], assign: Tuple[str, ...
     """).strip()  # noqa: E501
     pr = repo.create_pull(title, body, kwargs["base_branch"], branch_name, draft=draft)
 
-    label = set(label)
+    # labels could also be comma separated
+    label = {lbl for cs_labels in label for lbl in cs_labels.split(",") if lbl}
+
     if label:
         pr.add_to_labels(*sorted(label))
 
