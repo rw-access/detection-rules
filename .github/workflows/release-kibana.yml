@@ -24,22 +24,22 @@ jobs:
           token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
           ref: ${{matrix.target_branch}}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Build release package
-      run: |
-        python -m detection_rules dev build-release
+      - name: Build release package
+        run: |
+          python -m detection_rules dev build-release
 
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: release-files
-        path: |
-          releases
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: release-files
+          path: |
+            releases
 
-    - name: Create the PR to Kibana
-      run: |
-        python -m detection_rules dev kibana-pr --assign ${{github.actor}} --label release_note:skip --draft
+      - name: Create the PR to Kibana
+        run: |
+          python -m detection_rules dev kibana-pr --assign ${{github.actor}} --label release_note:skip --draft
