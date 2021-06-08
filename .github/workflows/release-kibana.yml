@@ -42,4 +42,4 @@ jobs:
 
       - name: Create the PR to Kibana
         run: |
-          python -m detection_rules dev kibana-pr --assign ${{github.actor}} --label release_note:skip --draft
+          python -m detection_rules dev kibana-pr --assign ${{github.actor}} --label release_note:skip,${{inputs.labels}} ${{startsWith(inputs.draft,'y') & &'--draft' || ' '}} --base-branch ${{inputs.kibana_branch}}
