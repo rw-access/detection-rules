@@ -41,5 +41,8 @@ jobs:
             releases
 
       - name: Create the PR to Kibana
+        env:
+          DRAFT_ARGS: "${{startsWith(github.event.inputs.draft,'y') & &'--draft' || ' '}}"
+          LABEL_ARGS: "--label release_note:skip,${{github.event.inputs.labels}}"
         run: |
-          python -m detection_rules dev kibana-pr --assign ${{github.actor}} --label release_note:skip,${{inputs.labels}} ${{startsWith(inputs.draft,'y') & &'--draft' || ' '}} --base-branch ${{inputs.kibana_branch}}
+          python -m detection_rules dev kibana-pr --assign ${{github.actor}} $LABEL_ARGS $DRAFT_ARGS --base-branch ${{inputs.kibana_branch}}
