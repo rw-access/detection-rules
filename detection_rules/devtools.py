@@ -186,9 +186,7 @@ def kibana_commit(ctx, local_repo: str, github_repo: str, ssh: bool, kibana_dire
 
     try:
         if not os.path.exists(local_repo):
-            if not click.confirm(f"Kibana repository doesn't exist at {local_repo}. Clone?"):
-                ctx.exit(1)
-
+            click.ech(f"Kibana repository doesn't exist at {local_repo}. Cloning...")
             url = f"git@github.com:{github_repo}.git" if ssh else f"https://github.com/{github_repo}.git"
             subprocess.check_call([git_exe, "clone", url, local_repo, "--depth", 1])
 
