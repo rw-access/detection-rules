@@ -40,6 +40,11 @@ jobs:
 #          path: |
 #            releases
 
+      - name: Set github config
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
       - name: Create the PR to Kibana
         env:
           DRAFT_ARGS: "${{startsWith(github.event.inputs.draft,'y') && '--draft' || ' '}}"
