@@ -51,8 +51,8 @@ jobs:
 
       - name: Set github config
         run: |
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.email "72879786+protectionsmachine@users.noreply.github.com"
+          git config --global user.name "protectionsmachine"
 
       - name: Create the PR to Kibana
         env:
