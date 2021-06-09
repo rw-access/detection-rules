@@ -20,7 +20,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-        path: detection-rules
+        with:
+          path: detection-rules
 
       - name: Checkout Kibana
         uses: actions/checkout@v2
