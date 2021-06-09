@@ -20,24 +20,25 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
-          ref: ${{matrix.target_branch}}
+        path: detection-rules
 
       - name: Checkout Kibana
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
           ref: ${{github.event.inputs.kibana_branch}}
-          path: ../kibana
+          repository: elastic/kibana
+          path: kibana
 
       - name: Install dependencies
         run: |
+          cd detection-rules
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Build release package
         run: |
+          cd detection-rules
           python -m detection_rules dev build-release
 #
 #      - name: Archive production artifacts
@@ -59,4 +60,5 @@ jobs:
           BRANCH_ARGS: "--base-branch ${{github.event.inputs.kibana_branch}}"
           GITHUB_TOKEN: "${{ secrets.PROTECTIONS_MACHINE_TOKEN }}"
         run: |
+          cd detection-rules
           python -m detection_rules dev kibana-pr --assign ${{github.actor}} $LABEL_ARGS $DRAFT_ARGS $BRANCH_ARGS
