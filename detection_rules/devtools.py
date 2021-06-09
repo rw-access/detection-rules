@@ -185,20 +185,21 @@ def kibana_commit(ctx, local_repo: str, github_repo: str, ssh: bool, kibana_dire
     short_commit_hash = subprocess.check_output([git_exe, "rev-parse", "--short", "HEAD"], encoding="utf-8").strip()
 
     try:
-        if not os.path.exists(local_repo):
-            click.echo(f"Kibana repository doesn't exist at {local_repo}. Cloning...")
-            url = f"git@github.com:{github_repo}.git" if ssh else f"https://github.com/{github_repo}.git"
-            subprocess.check_call([git_exe, "clone", url, local_repo, "--depth", "1"])
-
         def git(*args, show_output=False):
             method = subprocess.call if show_output else subprocess.check_output
             return method([git_exe, "-C", local_repo] + list(args), encoding="utf-8")
 
-        branch_name = branch_name or f"detection-rules/{package_name}-{short_commit_hash}"
+        if not os.path.exists(local_repo):
+            click.echo(f"Kibana repository doesn't exist at {local_repo}. Cloning...")
+            url = f"git@github.com:{github_repo}.git" if ssh else f"https://github.com/{github_repo}.git"
+            subprocess.check_call([git_exe, "clone", url, local_repo, "--depth", "1"])
+        else:
+            git("checkout", base_branch)
+            git("pull")
 
-        git("checkout", base_branch)
-        git("pull")
+        branch_name = branch_name or f"detection-rules/{package_name}-{short_commit_hash}"
         git("checkout", "-b", branch_name, show_output=True)
+
         git("rm", "-r", kibana_directory)
 
         source_dir = os.path.join(release_dir, "rules")
