@@ -198,7 +198,7 @@ def kibana_commit(ctx, local_repo: str, github_repo: str, ssh: bool, kibana_dire
 
         branch_name = branch_name or f"detection-rules/{package_name}-{short_commit_hash}"
 
-        git("checkout", branch_name, show_output=True)
+        git("checkout", "-b", branch_name, show_output=True)
         git("rm", "-r", kibana_directory)
 
         source_dir = os.path.join(release_dir, "rules")
