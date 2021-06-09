@@ -24,6 +24,13 @@ jobs:
           token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
           ref: ${{matrix.target_branch}}
 
+      - name: Checkout Kibana
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PROTECTIONS_MACHINE_TOKEN }}
+          ref: ${{github.event.inputs.kibana_branch}}
+          path: ../kibana
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
