@@ -124,9 +124,10 @@ jobs:
           echo "Save the commit message"
           git log ${{github.event.pull_request.merge_commit_sha}} --format=%B -n1 > $COMMIT_MSG_FILE
 
+          echo "Append to the commit message"
           if [ -s $UNSTAGED_LIST_FILE ]
           then
-            echo "Append to the commit message for the removed changes"
+            echo "Track note for the removed files"
 
             echo "" >> $COMMIT_MSG_FILE
             echo "Removed changes from:" >> $COMMIT_MSG_FILE
@@ -134,7 +135,7 @@ jobs:
             echo "" >> $COMMIT_MSG_FILE
             echo '(selectively cherry picked from commit ${{github.event.pull_request.merge_commit_sha}})' >> $COMMIT_MSG_FILE
           else
-            echo "Add a cherry pick note to the commit message"
+            echo "No removed files"
 
             echo "" >> $COMMIT_MSG_FILE
             echo '(cherry picked from commit ${{github.event.pull_request.merge_commit_sha}})' >> $COMMIT_MSG_FILE
