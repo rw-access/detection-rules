@@ -114,7 +114,7 @@ jobs:
 
           if [ "y" = "$NEEDS_BACKPORT" ]
           then
-            echo "No changes to backport
+            echo "No changes to backport"
             exit 0
           fi
 
