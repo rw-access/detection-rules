@@ -119,7 +119,7 @@ jobs:
           fi
 
           # Create the new commit with the same author
-          git commit --reuse-message -c ${{github.event.pull_request.merge_commit_sha}}
+          git commit --reuse-message ${{github.event.pull_request.merge_commit_sha}}
 
           # Save the commit message
           git log ${{github.event.pull_request.merge_commit_sha}} --format=$B -n1 > $COMMIT_MSG_FILE
