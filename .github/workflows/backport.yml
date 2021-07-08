@@ -128,7 +128,6 @@ jobs:
 
           echo "Append to the commit message"
           if [ -s "$UNSTAGED_LIST_FILE" ]
-          then
             echo "Track note for the removed files"
 
             echo "" >> $COMMIT_MSG_FILE
@@ -141,7 +140,7 @@ jobs:
 
             echo "" >> $COMMIT_MSG_FILE
             echo '(cherry picked from commit ${{github.event.pull_request.merge_commit_sha}})' >> $COMMIT_MSG_FILE
-          end
+          fi
 
           echo "Amend the commit message and push"
           git commit --amend -F $COMMIT_MSG_FILE
