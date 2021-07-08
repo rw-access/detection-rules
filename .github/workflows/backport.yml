@@ -110,7 +110,7 @@ jobs:
           # Switch to the target branch and keep the staged changes
           git checkout ${{matrix.target_branch}}
 
-          NEEDS_BACKPORT=$(git diff --quiet --exit-code && echo y || echo n)
+          NEEDS_BACKPORT=$(git diff HEAD --quiet --exit-code && echo y || echo n)
 
           if [ "y" = "$NEEDS_BACKPORT" ]
           then
