@@ -122,7 +122,7 @@ jobs:
           git commit --reuse-message ${{github.event.pull_request.merge_commit_sha}}
 
           echo "Save the commit message"
-          git log ${{github.event.pull_request.merge_commit_sha}} --format=$B -n1 > $COMMIT_MSG_FILE
+          git log ${{github.event.pull_request.merge_commit_sha}} --format=%B -n1 > $COMMIT_MSG_FILE
 
           if [ -s $UNSTAGED_LIST_FILE ]
           then
