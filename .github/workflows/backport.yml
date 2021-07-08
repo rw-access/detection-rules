@@ -128,7 +128,7 @@ jobs:
           if [ -s $UNSTAGED_LIST_FILE ]
           then
             echo "\nIgnoring changes from:" >> $COMMIT_MSG_FILE
-            awk '{print "- " $0} $UNSTAGED_LIST_FILE >> $COMMIT_MSG_FILE
+            awk '{print "- " $0}' $UNSTAGED_LIST_FILE >> $COMMIT_MSG_FILE
             echo "" >> $COMMIT_MSG_FILE
             echo '(selectively cherry picked from commit ${{github.event.pull_request.merge_commit_sha}})' >> $COMMIT_MSG_FILE
           else
