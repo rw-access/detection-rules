@@ -127,7 +127,7 @@ jobs:
           git log ${{github.event.pull_request.merge_commit_sha}} --format=%B -n1 > $COMMIT_MSG_FILE
 
           echo "Append to the commit message"
-          if [ -s $UNSTAGED_LIST_FILE ]
+          if [ -s "$UNSTAGED_LIST_FILE" ]
           then
             echo "Track note for the removed files"
 
