@@ -107,7 +107,7 @@ jobs:
           COMMIT_MSG_FILE: "../commit-message.txt"
           UNSTAGED_LIST_FILE: "../unstaged-rules.txt"
         run: |
-          set +x
+          set -x
 
           echo "Switch to the target branch and keep the staged changes"
           git checkout ${{matrix.target_branch}}
