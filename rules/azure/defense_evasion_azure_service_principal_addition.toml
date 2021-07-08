@@ -12,7 +12,7 @@ accesses or modifies resources needs an identity created. This identity is known
 reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with
 a user identity.
 
-Foo foo foo
+Foo foo foo.
 """
 false_positives = [
     """
