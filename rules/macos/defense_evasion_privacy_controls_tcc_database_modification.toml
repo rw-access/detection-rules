@@ -2,6 +2,7 @@
 creation_date = "2020/12/23"
 maturity = "production"
 updated_date = "2021/03/03"
+min_stack_version = "7.13.0"
 
 [rule]
 author = ["Elastic"]
