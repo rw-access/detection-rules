@@ -128,6 +128,7 @@ jobs:
 
           echo "Append to the commit message"
           if [ -s "$UNSTAGED_LIST_FILE" ]
+          then
             echo "Track note for the removed files"
 
             echo "" >> $COMMIT_MSG_FILE
